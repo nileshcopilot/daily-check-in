@@ -35,6 +35,14 @@
     "tsup": "^8.0.0",
     "typescript": "^5.5.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nileshcopilot/daily-check-in.git"
+  },
+  "homepage": "https://github.com/nileshcopilot/daily-check-in#readme",
+  "bugs": {
+    "url": "https://github.com/nileshcopilot/daily-check-in/issues"
+  },
   "keywords": [
     "react",
     "daily-checkin",
