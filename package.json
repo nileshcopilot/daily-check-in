@@ -1,0 +1,48 @@
+{
+  "name": "@nileshp.vinfotech/daily-checkin-popup",
+  "version": "0.1.0",
+  "description": "Daily check-in popup with streak tracking for React. Zero dependencies, auto-shows once per day.",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --minify",
+    "prepare": "npm run build",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "react": ">=17",
+    "react-dom": ">=17"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.5.0"
+  },
+  "keywords": [
+    "react",
+    "daily-checkin",
+    "check-in",
+    "popup",
+    "modal",
+    "streak",
+    "rewards"
+  ],
+  "license": "MIT"
+}
