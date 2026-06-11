@@ -1,6 +1,6 @@
 {
   "name": "@nileshp.vinfotech/daily-checkin-popup",
-  "version": "0.1.22",
+  "version": "0.1.23",
   "description": "Daily check-in popup with streak tracking for React. Zero dependencies, auto-shows once per day.",
   "type": "module",
   "main": "./dist/index.cjs",
