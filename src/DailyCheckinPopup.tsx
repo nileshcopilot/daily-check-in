@@ -14,19 +14,23 @@ export interface DailyCheckinPopupProps extends UseDailyCheckinOptions {
   onOpenChange?: (open: boolean) => void;
   /** Heading. Default: "Daily Check-in" */
   title?: ReactNode;
-  /** Line under the heading. Default: "Come back every day to keep your streak going!" */
+  /** Line under the heading. Default: "Check in to get <coin> <today's reward>" */
   subtitle?: ReactNode;
-  /** Number of days shown in the streak row. Default: 7 */
+  /** Small text under the subtitle. Default: "You must claim daily bonus every day to form a streak!" */
+  note?: ReactNode;
+  /** Number of days shown in the grid. Default: 7 */
   days?: number;
-  /** Label under each day tile, e.g. reward amounts: ["+10", "+20", ...]. Falls back to "Day N". */
+  /** Reward amount per day tile, e.g. [5, 20, 30, 40, 50]. */
   rewards?: ReactNode[];
-  /** Icon for a completed day. Default: "✓" */
+  /** Unit label under each reward, e.g. "Token" or "Coins". Default: "Token" */
+  unitLabel?: ReactNode;
+  /** Icon in the corner badge of a completed day. Default: "✓" */
   doneIcon?: ReactNode;
-  /** Icon for an upcoming day. Default: "🎁" */
-  pendingIcon?: ReactNode;
-  /** Check-in button label. Default: "Check in" */
+  /** Number of tile columns. Default: 3 */
+  columns?: number;
+  /** Check-in button label. Default: "CLAIM" */
   buttonLabel?: ReactNode;
-  /** Button label after checking in. Default: "Checked in ✓" */
+  /** Button label after checking in. Default: "CLAIMED ✓" */
   checkedInLabel?: ReactNode;
   /** Close the popup automatically this many ms after check-in. 0 disables. Default: 1500 */
   closeDelay?: number;
@@ -36,18 +40,34 @@ export interface DailyCheckinPopupProps extends UseDailyCheckinOptions {
   className?: string;
 }
 
+/** Gold coin with a star — dimmed (grey) version for upcoming days */
+function Coin({ dim }: { dim?: boolean }) {
+  return (
+    <svg className="dcp-coin" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="11" fill={dim ? '#b9c0c9' : '#f0a92e'} />
+      <circle cx="12" cy="12" r="8.5" fill={dim ? '#d9dee4' : '#ffd84d'} />
+      <path
+        d="M12 6.6l1.55 3.15 3.45.5-2.5 2.44.6 3.46L12 14.5l-3.1 1.65.6-3.46L7 10.25l3.45-.5z"
+        fill="#ffffff"
+      />
+    </svg>
+  );
+}
+
 export function DailyCheckinPopup(props: DailyCheckinPopupProps) {
   const {
     open: controlledOpen,
     onOpenChange,
     title = 'Daily Check-in',
-    subtitle = 'Come back every day to keep your streak going!',
+    subtitle,
+    note = 'You must claim daily bonus every day to form a streak!',
     days = 7,
     rewards,
+    unitLabel = 'Token',
     doneIcon = '✓',
-    pendingIcon = '🎁',
-    buttonLabel = 'Check in',
-    checkedInLabel = 'Checked in ✓',
+    columns = 3,
+    buttonLabel = 'CLAIM',
+    checkedInLabel = 'CLAIMED ✓',
     closeDelay = 1500,
     closeOnOverlayClick = true,
     className,
@@ -87,6 +107,9 @@ export function DailyCheckinPopup(props: DailyCheckinPopupProps) {
   // Position within the visible cycle: streak 1..days maps to tile 0..days-1, then wraps
   const doneCount = streak === 0 ? 0 : ((streak - 1) % days) + 1;
   const todayIndex = checkedInToday ? -1 : doneCount;
+  // Reward the user gets (or got) for today's check-in, shown in the subtitle
+  const currentIndex = Math.min(checkedInToday ? Math.max(doneCount - 1, 0) : doneCount, days - 1);
+  const currentReward = rewards?.[currentIndex];
 
   const handleCheckIn = () => {
     if (checkedInToday) return;
@@ -104,23 +127,27 @@ export function DailyCheckinPopup(props: DailyCheckinPopupProps) {
     >
       <div
         className={className ? `dcp-card ${className}` : 'dcp-card'}
-        style={{ ['--dcp-days' as string]: days }}
+        style={{ ['--dcp-columns' as string]: columns }}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
         aria-label={typeof title === 'string' ? title : 'Daily check-in'}
       >
+        <div className="dcp-badge">
+          <Coin />
+        </div>
         <button className="dcp-close" onClick={() => setOpen(false)} aria-label="Close">
           ×
         </button>
         <h2 className="dcp-title">{title}</h2>
-        <p className="dcp-subtitle">{subtitle}</p>
-        <div className="dcp-streak">
-          <span>🔥</span>
-          <span>
-            <span className="dcp-streak-count">{streak}</span> day streak
-          </span>
-        </div>
+        <p className="dcp-subtitle">
+          {subtitle ?? (
+            <>
+              Check in to get <Coin /> {currentReward ?? ''}
+            </>
+          )}
+        </p>
+        {note ? <p className="dcp-note">{note}</p> : null}
         <div className="dcp-days">
           {Array.from({ length: days }, (_, i) => {
             const done = i < doneCount;
@@ -134,8 +161,16 @@ export function DailyCheckinPopup(props: DailyCheckinPopupProps) {
               .join(' ');
             return (
               <div key={i} className={cls}>
-                <span className="dcp-day-icon">{done ? doneIcon : pendingIcon}</span>
-                <span className="dcp-day-label">{rewards?.[i] ?? `Day ${i + 1}`}</span>
+                {done ? <span className="dcp-day-check">{doneIcon}</span> : null}
+                <span className="dcp-day-name">Day {i + 1}</span>
+                {rewards?.[i] != null ? (
+                  <>
+                    <span className="dcp-day-value">{rewards[i]}</span>
+                    <span className="dcp-day-unit">
+                      <Coin dim={!done && !isToday} /> {unitLabel}
+                    </span>
+                  </>
+                ) : null}
               </div>
             );
           })}
@@ -143,7 +178,6 @@ export function DailyCheckinPopup(props: DailyCheckinPopupProps) {
         <button className="dcp-button" onClick={handleCheckIn} disabled={checkedInToday}>
           {checkedInToday ? checkedInLabel : buttonLabel}
         </button>
-        Nilesh Patel
       </div>
     </div>,
     document.body
