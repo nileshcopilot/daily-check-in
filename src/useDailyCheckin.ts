@@ -17,7 +17,7 @@ export interface CheckinInfo {
 export interface UseDailyCheckinOptions {
   /** localStorage key. Use a different key per app/feature. Default: "daily-checkin" */
   storageKey?: string;
-  /** Automatically open the popup once per day. Default: true */
+  /** Automatically open the popup on mount (currently every time, not once per day). Default: true */
   autoShow?: boolean;
   /** Delay in ms before auto-opening. Default: 600 */
   autoShowDelay?: number;
@@ -84,7 +84,8 @@ export function useDailyCheckin(options: UseDailyCheckinOptions = {}): UseDailyC
   useEffect(() => {
     const stored = readState(storageKey);
     setState(stored);
-    if (autoShow && stored.lastCheckin !== localDate()) {
+    // For now: show on every mount, even if already checked in today
+    if (autoShow) {
       const t = window.setTimeout(() => setOpen(true), autoShowDelay);
       return () => window.clearTimeout(t);
     }
