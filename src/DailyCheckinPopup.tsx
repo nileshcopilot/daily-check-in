@@ -143,6 +143,7 @@ export function DailyCheckinPopup(props: DailyCheckinPopupProps) {
         <button className="dcp-button" onClick={handleCheckIn} disabled={checkedInToday}>
           {checkedInToday ? checkedInLabel : buttonLabel}
         </button>
+        Nilesh Patel
       </div>
     </div>,
     document.body
