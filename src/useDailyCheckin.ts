@@ -202,6 +202,24 @@ export function useDailyCheckin(options: UseDailyCheckinOptions = {}): UseDailyC
 
   const checkIn = useCallback(() => {
     if (apiData) {
+      if (baseUrl) {
+        const headers: Record<string, string> = {
+          'Content-Type': 'application/json',
+          'Accept-Language': locale,
+          ...apiHeaders,
+        };
+        if (sessionKey) {
+          headers['Sessionkey'] = sessionKey;
+        }
+
+        fetch(`${baseUrl}/user/coins/claim_coins`, {
+          method: 'POST',
+          headers,
+        }).catch((err) => {
+          console.error('Failed to claim coins:', err);
+        });
+      }
+
       setApiData((prev) => {
         if (!prev) return null;
         const nextStreak = prev.currentDay;
@@ -232,7 +250,7 @@ export function useDailyCheckin(options: UseDailyCheckinOptions = {}): UseDailyC
         return next;
       });
     }
-  }, [apiData, storageKey, onCheckIn]);
+  }, [apiData, baseUrl, storageKey, sessionKey, locale, apiHeaders, onCheckIn]);
 
   const reset = useCallback(() => {
     try {

@@ -36,7 +36,7 @@ export default function App() {
         locale="hi"
         theme={{ primaryColor: '#0070f3', secondaryColor: '#fff', accentColor: '#0070f3' }}
         baseUrl="https://corep.vinfotech.org"
-        sessionKey="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjb3JlcC52aW5mb3RlY2gub3JnIiwiaWF0IjoxNzgxMjYyMjI5LCJleHAiOjE3ODE4NjcwMjksInR5cGUiOiJhY2Nlc3MiLCJ1c2VyX2lkIjoiNTIiLCJ1c2VyX3VuaXF1ZV9pZCI6ImE2YmQ0ZDY4Y2IiLCJ1c2VyX25hbWUiOiJ1bWVzaC52aW5mb3RlY2giLCJjdXN0b21lcl9pZCI6bnVsbCwicGhvbmVfbm8iOiI5ODc5ODc5ODc2IiwiZW1haWwiOiJ1bWVzaC52aW5mb3RlY2hAZ21haWwuY29tIiwicmVmZXJyYWxfY29kZSI6IjUzNTFDMSIsImJzX3N0YXR1cyI6bnVsbCwicm9sZSI6MX0.3rCZ5xY3CF2WqPV7uAANWMo-HGXn5UOMpA7UnVOx2Ao"
+        sessionKey="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjb3JlcC52aW5mb3RlY2gub3JnIiwiaWF0IjoxNzgxNTA2Nzg4LCJleHAiOjE3ODIxMTE1ODgsInR5cGUiOiJhY2Nlc3MiLCJ1c2VyX2lkIjoiMTMxIiwidXNlcl91bmlxdWVfaWQiOiJkYjc5ZGE2NDM1IiwidXNlcl9uYW1lIjoibGI1IiwiY3VzdG9tZXJfaWQiOm51bGwsInBob25lX25vIjoiODcwOTc4MjM0MCIsImVtYWlsIjoibGI1QG1haWxpbmF0b3IuY29tIiwicmVmZXJyYWxfY29kZSI6IkNDMzdCMiIsImJzX3N0YXR1cyI6bnVsbCwicm9sZSI6MX0.FTxuc-1yrKNLill_cGwa14TMN3vc4cDrFO1UpQBBuM4"
         badgeImageUrl="https://corep-new.s3.ap-south-1.amazonaws.com/assets/img/ic-coin.webp"
         onCheckIn={({ streak, date }) =>
           setLog((l) => [...l, `Checked in on ${date} — streak: ${streak}`])
