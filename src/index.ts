@@ -7,3 +7,6 @@ export type {
   UseDailyCheckinOptions,
   UseDailyCheckinReturn,
 } from './useDailyCheckin';
+export { locales } from './locales';
+export type { CheckinTranslations } from './locales';
+

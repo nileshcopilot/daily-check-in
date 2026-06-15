@@ -7,6 +7,15 @@ export default function App() {
   const [open, setOpen] = useState(false);
   const [log, setLog] = useState<string[]>([]);
 
+  if (typeof window !== 'undefined' && !(window.fetch as any).__spied) {
+    const originalFetch = window.fetch;
+    window.fetch = function (input, init) {
+      console.log('SPY_FETCH:', input, 'HEADERS:', JSON.stringify(init?.headers));
+      return originalFetch(input, init);
+    };
+    (window.fetch as any).__spied = true;
+  }
+
   const resetAndReload = () => {
     localStorage.removeItem(STORAGE_KEY);
     location.reload();
@@ -24,9 +33,11 @@ export default function App() {
         open={open || undefined}
         onOpenChange={setOpen}
         storageKey={STORAGE_KEY}
-        title="Daily Check-in"
-        subtitle="Claim your daily bonus!"
-        rewards={['+10', '+20', '+30', '+40', '+50', '+75', '+100']}
+        locale="hi"
+        theme={{ primaryColor: '#0070f3', secondaryColor: '#fff', accentColor: '#0070f3' }}
+        baseUrl="https://corep.vinfotech.org"
+        sessionKey="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjb3JlcC52aW5mb3RlY2gub3JnIiwiaWF0IjoxNzgxMjYyMjI5LCJleHAiOjE3ODE4NjcwMjksInR5cGUiOiJhY2Nlc3MiLCJ1c2VyX2lkIjoiNTIiLCJ1c2VyX3VuaXF1ZV9pZCI6ImE2YmQ0ZDY4Y2IiLCJ1c2VyX25hbWUiOiJ1bWVzaC52aW5mb3RlY2giLCJjdXN0b21lcl9pZCI6bnVsbCwicGhvbmVfbm8iOiI5ODc5ODc5ODc2IiwiZW1haWwiOiJ1bWVzaC52aW5mb3RlY2hAZ21haWwuY29tIiwicmVmZXJyYWxfY29kZSI6IjUzNTFDMSIsImJzX3N0YXR1cyI6bnVsbCwicm9sZSI6MX0.3rCZ5xY3CF2WqPV7uAANWMo-HGXn5UOMpA7UnVOx2Ao"
+        badgeImageUrl="https://corep-new.s3.ap-south-1.amazonaws.com/assets/img/ic-coin.webp"
         onCheckIn={({ streak, date }) =>
           setLog((l) => [...l, `Checked in on ${date} — streak: ${streak}`])
         }

@@ -18,9 +18,9 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts --minify",
+    "build": "tsup src/index.ts --format esm,cjs --dts --minify --target es2017",
     "prepare": "npm run build",
-    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch --target es2017",
     "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
