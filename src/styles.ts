@@ -17,8 +17,8 @@ export const css = `
 .dcp-card {
   position: relative;
   width: 100%;
-  max-width: var(--dcp-max-width, 330px);
-  border-radius: var(--dcp-radius, 28px);
+  max-width: var(--dcp-max-width, 285px);
+  border-radius: var(--dcp-radius, 40px);
   background: var(--dcp-bg, #00a26d);
   color: var(--dcp-text, var(--dcp-secondary, #ffffff));
   box-shadow: var(--dcp-shadow, 0 20px 50px rgba(0, 0, 0, 0.3));
@@ -36,8 +36,8 @@ export const css = `
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 80px;
-  height: 80px;
+  width: 88px;
+  height: 88px;
   border-radius: 50%;
   background: var(--dcp-bg, #00a26d);
   // box-shadow: 0 4px 16px rgba(0,0,0,0.18);
@@ -65,6 +65,7 @@ export const css = `
   height: 44px;
 }
 .dcp-close {
+  display:none !important;
   position: absolute;
   top: 14px;
   right: 14px;
@@ -108,34 +109,53 @@ export const css = `
   height: 20px;
 }
 .dcp-note {
-  margin: 0 0 24px;
-  font-size: 11px;
+  // margin: 0 0 24px;
+  font-size: 10px;
   font-weight: 500;
   opacity: 0.85;
-  line-height: 1.4;
+  // line-height: 1.4;
+  margin-bottom:40px;
 }
 .dcp-days {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 28px;
+  // display: flex;
+  // flex-wrap: wrap;
+  // justify-content: center;
+  // gap: 12px;
+  // margin-bottom: 28px;
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 12px !important;
+  margin-top: -20px !important;
+  grid-auto-rows: auto !important;
+  padding: 0 15px;
 }
 .dcp-day {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 18px 6px 14px;
-  border-radius: 12px;
-  background: var(--dcp-day-bg, rgba(0, 0, 0, 0.15));
-  color: rgba(255, 255, 255, 0.6);
-  flex: 0 1 calc((100% - (var(--dcp-columns, 3) - 1) * 20px) / var(--dcp-columns, 3));
-  box-sizing: border-box;
+  // position: relative;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
+  // gap: 8px;
+  // padding: 18px 6px 14px;
+  // border-radius: 12px;
+  // background: var(--dcp-day-bg, rgba(0, 0, 0, 0.15));
+  // color: rgba(255, 255, 255, 0.6);
+  // flex: 0 1 calc((100% - (var(--dcp-columns, 3) - 1) * 20px) / var(--dcp-columns, 3));
+  // box-sizing: border-box;
+  // border: 1.5px solid transparent;
+  // overflow: hidden;
+  // transition: transform 0.2s ease, background-color 0.2s ease;
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
   border: 1.5px solid transparent;
-  overflow: hidden;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  border-radius: 6px !important;
+  padding: 12px !important;
+  animation: fade-anim .3s linear !important;
+  animation-fill-mode: both !important;
+  max-height: 118px !important;
+  max-width: 78px !important;
+  background: var(--dcp-day-bg, rgba(0, 0, 0, 0.15));
 }
 .dcp-day-done {
   background: var(--dcp-day-done-bg, rgba(0, 0, 0, 0.08));
@@ -200,6 +220,10 @@ export const css = `
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: transform 0.1s ease, box-shadow 0.1s ease;
+  margin-top:30px;
+  animation: shadow-pulse 1.5s infinite;
+  animation-delay: .5s;
+  cursor:pointer;
 }
 .dcp-button:hover:not(:disabled) {
   transform: translateY(-1px);

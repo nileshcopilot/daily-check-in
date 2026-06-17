@@ -21,6 +21,10 @@ export default function App() {
     location.reload();
   };
 
+  // Mock lastShownDate from parent (e.g. yesterday's date to test "first visit today",
+  // or today's date "YYYY-MM-DD" to test "second visit today").
+  const mockLastShownDate = '2026-06-17';
+
   return (
     <div style={{ fontFamily: 'system-ui', padding: 40, maxWidth: 600, margin: '0 auto' }}>
 
@@ -33,11 +37,11 @@ export default function App() {
         open={open || undefined}
         onOpenChange={setOpen}
         storageKey={STORAGE_KEY}
-        locale="hi"
+        lastShownDate={mockLastShownDate}
+        locale="en"
         theme={{ primaryColor: '#0070f3', secondaryColor: '#fff', accentColor: '#0070f3' }}
         baseUrl="https://corep.vinfotech.org"
-        sessionKey="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjb3JlcC52aW5mb3RlY2gub3JnIiwiaWF0IjoxNzgxNTA2Nzg4LCJleHAiOjE3ODIxMTE1ODgsInR5cGUiOiJhY2Nlc3MiLCJ1c2VyX2lkIjoiMTMxIiwidXNlcl91bmlxdWVfaWQiOiJkYjc5ZGE2NDM1IiwidXNlcl9uYW1lIjoibGI1IiwiY3VzdG9tZXJfaWQiOm51bGwsInBob25lX25vIjoiODcwOTc4MjM0MCIsImVtYWlsIjoibGI1QG1haWxpbmF0b3IuY29tIiwicmVmZXJyYWxfY29kZSI6IkNDMzdCMiIsImJzX3N0YXR1cyI6bnVsbCwicm9sZSI6MX0.FTxuc-1yrKNLill_cGwa14TMN3vc4cDrFO1UpQBBuM4"
-        badgeImageUrl="https://corep-new.s3.ap-south-1.amazonaws.com/assets/img/ic-coin.webp"
+        sessionKey="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjb3JlcC52aW5mb3RlY2gub3JnIiwiaWF0IjoxNzgxNTk4MzM3LCJleHAiOjE3ODIyMDMxMzcsInR5cGUiOiJhY2Nlc3MiLCJ1c2VyX2lkIjoiMjg3IiwidXNlcl91bmlxdWVfaWQiOiI5NGZiMDdlNjRiIiwidXNlcl9uYW1lIjoidGVzdHRfbmV3IiwiY3VzdG9tZXJfaWQiOm51bGwsInBob25lX25vIjoiIiwiZW1haWwiOiJ0ZXN0dF9uZXdAZXhhbXBsZS5jb20iLCJyZWZlcnJhbF9jb2RlIjoiQTlBQjY5IiwiYnNfc3RhdHVzIjpudWxsLCJyb2xlIjoxfQ.Xq2WcRXcMpvJADdjFfaiKg2l1pLsDMeQs5Cw8CpACfQ"
         onCheckIn={({ streak, date }) =>
           setLog((l) => [...l, `Checked in on ${date} — streak: ${streak}`])
         }

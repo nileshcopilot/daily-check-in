@@ -37,6 +37,8 @@ export interface UseDailyCheckinOptions {
   locale?: string;
   /** Additional headers for API calls (e.g. Authorization token) */
   apiHeaders?: Record<string, string>;
+  /** The date when the popup was last shown (format: YYYY-MM-DD or Date object or timestamp) */
+  lastShownDate?: string | number | Date | null;
 }
 
 export interface UseDailyCheckinReturn {
@@ -65,6 +67,33 @@ function yesterdayDate(): string {
   const d = new Date();
   d.setDate(d.getDate() - 1);
   return localDate(d);
+}
+
+function normalizeDate(d: Date | string | number | null | undefined): string | null {
+  if (!d) return null;
+  if (d instanceof Date) {
+    return localDate(d);
+  }
+  if (typeof d === 'number') {
+    return localDate(new Date(d));
+  }
+  if (typeof d === 'string') {
+    if (/^\d{4}-\d{2}-\d{2}$/.test(d)) {
+      return d;
+    }
+    if (/^\d+$/.test(d)) {
+      return localDate(new Date(Number(d)));
+    }
+    try {
+      const parsed = new Date(d);
+      if (!isNaN(parsed.getTime())) {
+        return localDate(parsed);
+      }
+    } catch {
+      // ignore
+    }
+  }
+  return null;
 }
 
 function readState(key: string): CheckinState {
@@ -100,6 +129,7 @@ export function useDailyCheckin(options: UseDailyCheckinOptions = {}): UseDailyC
     sessionKey,
     locale = 'en',
     apiHeaders,
+    lastShownDate,
   } = options;
 
   const [open, setOpen] = useState(false);
@@ -109,21 +139,70 @@ export function useDailyCheckin(options: UseDailyCheckinOptions = {}): UseDailyC
     currentDay: number;
     dailyStreakCoins: Array<{ day_number: number; coins: string | number }>;
   } | null>(null);
+  const [hasAutoShown, setHasAutoShown] = useState(false);
 
   // Read storage after mount so SSR markup stays stable (no hydration mismatch)
   useEffect(() => {
     const stored = readState(storageKey);
     setState(stored);
-    // For now: show on every mount, even if already checked in today
-    if (autoShow) {
-      const t = window.setTimeout(() => setOpen(true), autoShowDelay);
-      return () => window.clearTimeout(t);
-    }
-  }, [storageKey, autoShow, autoShowDelay]);
+  }, [storageKey]);
 
-  // Fetch streak state from API whenever the popup opens
+  // Reset hasAutoShown and apiData when sessionKey or baseUrl changes
   useEffect(() => {
-    if (!open || !baseUrl) return;
+    setHasAutoShown(false);
+    setApiData(null);
+  }, [sessionKey, baseUrl]);
+
+  // Handle auto-show logic
+  useEffect(() => {
+    if (!autoShow || hasAutoShown) return;
+
+    const today = localDate();
+
+    if (baseUrl) {
+      // API mode: wait until apiData is loaded
+      if (!apiData) return;
+
+      const checkedInToday = apiData.allowClaim === 0;
+      let shouldShow = !checkedInToday;
+
+      if (shouldShow && lastShownDate !== undefined && lastShownDate !== null) {
+        const normalizedLastShown = normalizeDate(lastShownDate);
+        const isFirstTimeToday = normalizedLastShown !== today;
+        shouldShow = isFirstTimeToday ? !checkedInToday : !checkedInToday;
+      }
+
+      if (shouldShow) {
+        const t = window.setTimeout(() => setOpen(true), autoShowDelay);
+        setHasAutoShown(true);
+        return () => window.clearTimeout(t);
+      } else {
+        setHasAutoShown(true);
+      }
+    } else {
+      // Local-only mode: use local storage status immediately on mount
+      const checkedInTodayOnMount = state.lastCheckin === today;
+      let shouldShow = !checkedInTodayOnMount;
+
+      if (shouldShow && lastShownDate !== undefined && lastShownDate !== null) {
+        const normalizedLastShown = normalizeDate(lastShownDate);
+        const isFirstTimeToday = normalizedLastShown !== today;
+        shouldShow = isFirstTimeToday ? !checkedInTodayOnMount : !checkedInTodayOnMount;
+      }
+
+      if (shouldShow) {
+        const t = window.setTimeout(() => setOpen(true), autoShowDelay);
+        setHasAutoShown(true);
+        return () => window.clearTimeout(t);
+      } else {
+        setHasAutoShown(true);
+      }
+    }
+  }, [autoShow, autoShowDelay, lastShownDate, baseUrl, apiData, state.lastCheckin, hasAutoShown]);
+
+  // Fetch streak state from API on mount, session switch, or when popup opens
+  useEffect(() => {
+    if (!baseUrl) return;
 
     const fetchStreakData = async () => {
       try {
