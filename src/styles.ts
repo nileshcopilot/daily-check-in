@@ -21,7 +21,7 @@ export const css = `
   border-radius: var(--dcp-radius, 40px);
   background: var(--dcp-bg, #00a26d);
   color: var(--dcp-text, var(--dcp-secondary, #ffffff));
-  box-shadow: var(--dcp-shadow, 0 20px 50px rgba(0, 0, 0, 0.3));
+  // box-shadow: var(--dcp-shadow, 0 20px 50px rgba(0, 0, 0, 0.3));
   padding: 60px 16px 36px;
   text-align: center;
   font-family: var(--dcp-font, system-ui, -apple-system, sans-serif);

@@ -34,7 +34,6 @@ export default function App() {
       </div>
 
       <DailyCheckinPopup
-        // open={open || undefined}
         open={open || undefined}
         onOpenChange={setOpen}
         storageKey={STORAGE_KEY}
