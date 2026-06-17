@@ -17,7 +17,7 @@ export const css = `
 .dcp-card {
   position: relative;
   width: 100%;
-  max-width: var(--dcp-max-width, 285px);
+  max-width: var(--dcp-max-width, 315px);
   border-radius: var(--dcp-radius, 40px);
   background: var(--dcp-bg, #00a26d);
   color: var(--dcp-text, var(--dcp-secondary, #ffffff));

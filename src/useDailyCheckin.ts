@@ -171,10 +171,11 @@ export function useDailyCheckin(options: UseDailyCheckinOptions = {}): UseDailyC
         const isFirstTimeToday = normalizedLastShown !== today;
         shouldShow = isFirstTimeToday ? !checkedInToday : !checkedInToday;
       }
-
       if (shouldShow) {
-        const t = window.setTimeout(() => setOpen(true), autoShowDelay);
-        setHasAutoShown(true);
+        const t = window.setTimeout(() => {
+          setOpen(true)
+          setHasAutoShown(true);
+        }, autoShowDelay);
         return () => window.clearTimeout(t);
       } else {
         setHasAutoShown(true);
@@ -191,8 +192,7 @@ export function useDailyCheckin(options: UseDailyCheckinOptions = {}): UseDailyC
       }
 
       if (shouldShow) {
-        const t = window.setTimeout(() => setOpen(true), autoShowDelay);
-        setHasAutoShown(true);
+        const t = window.setTimeout(() => { setOpen(true); setHasAutoShown(true); }, autoShowDelay);
         return () => window.clearTimeout(t);
       } else {
         setHasAutoShown(true);
