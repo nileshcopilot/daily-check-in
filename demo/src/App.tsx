@@ -26,7 +26,7 @@ export default function App() {
   const mockLastShownDate = '2026-06-17';
 
   return (
-    <div style={{ fontFamily: 'system-ui', padding: 40, maxWidth: 600, margin: '0 auto' }}>
+    <div style={{ fontFamily: "'Inter', sans-serif", padding: 40, maxWidth: 600, margin: '0 auto' }}>
 
       <div style={{ display: 'flex', gap: 12, marginBottom: 24 }}>
         <button onClick={() => setOpen(true)}>Open popup</button>
@@ -41,7 +41,7 @@ export default function App() {
         locale="en"
         theme={{ primaryColor: '#0070f3', secondaryColor: '#fff', accentColor: '#0070f3' }}
         baseUrl="https://corep.vinfotech.org"
-        sessionKey="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjb3JlcC52aW5mb3RlY2gub3JnIiwiaWF0IjoxNzgxNjc2NzYyLCJleHAiOjE3ODIyODE1NjIsInR5cGUiOiJhY2Nlc3MiLCJ1c2VyX2lkIjoiMjc0IiwidXNlcl91bmlxdWVfaWQiOiJjMjkxMDVjODdjIiwidXNlcl9uYW1lIjoiYnJhemlsIiwiY3VzdG9tZXJfaWQiOm51bGwsInBob25lX25vIjoiNjc5ODA4ODY2IiwiZW1haWwiOiJicmF6aWxAbWFpbGluYXRvci5jb20iLCJyZWZlcnJhbF9jb2RlIjoiMDNCQzZDIiwiYnNfc3RhdHVzIjpudWxsLCJyb2xlIjoxfQ.QphUP5yf3lhLoQHmKqBaMw8KrAXiJeICQeMpBC7O_vk"
+        sessionKey="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjb3JlcC52aW5mb3RlY2gub3JnIiwiaWF0IjoxNzgyMTIwMzU5LCJleHAiOjE3ODI3MjUxNTksInR5cGUiOiJhY2Nlc3MiLCJ1c2VyX2lkIjoiMjc1IiwidXNlcl91bmlxdWVfaWQiOiI5ZGUwYzRjMjc3IiwidXNlcl9uYW1lIjoiY2FmZTAwMDkiLCJjdXN0b21lcl9pZCI6bnVsbCwicGhvbmVfbm8iOiI2Nzk4MTg4NjYiLCJlbWFpbCI6ImNhZmUwMDA5QG1haWxpbmF0b3IuY29tIiwicmVmZXJyYWxfY29kZSI6IkVEMzQ1MiIsImJzX3N0YXR1cyI6bnVsbCwicm9sZSI6MX0.JiTKyvLAlg-MVeE-G6vEN-7rTh6QYlmyxbEWCtuYrxQ"
         onCheckIn={({ streak, date }) =>
           setLog((l) => [...l, `Checked in on ${date} — streak: ${streak}`])
         }

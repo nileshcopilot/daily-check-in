@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { injectStyles } from './styles';
 import {
@@ -8,6 +8,7 @@ import {
   type CheckinTheme,
 } from './useDailyCheckin';
 import { locales, renderTemplate, interpolateDay } from './locales';
+import { Particles } from './Particles';
 
 export interface DailyCheckinPopupProps extends UseDailyCheckinOptions {
   /** Controlled open state. Omit to let the popup manage itself (auto-show once per day). */
@@ -28,8 +29,6 @@ export interface DailyCheckinPopupProps extends UseDailyCheckinOptions {
   unitLabel?: ReactNode;
   /** Icon in the corner badge of a completed day. Default: "✓" */
   doneIcon?: ReactNode;
-  /** URL for the coin image shown in the top badge. Falls back to the built-in SVG coin. */
-  badgeImageUrl?: string;
   /** Number of tile columns. Default: 3 */
   columns?: number;
   /** Check-in button label. Default: "CLAIM" */
@@ -38,7 +37,7 @@ export interface DailyCheckinPopupProps extends UseDailyCheckinOptions {
   checkedInLabel?: ReactNode;
   /** Close the popup automatically this many ms after check-in. 0 disables. Default: 1500 */
   closeDelay?: number;
-  /** Close when the overlay backdrop is clicked. Default: true */
+  /** Close when the overlay backdrop is clicked. Default: false */
   closeOnOverlayClick?: boolean;
   /** Extra class on the popup card */
   className?: string;
@@ -57,18 +56,24 @@ export interface DailyCheckinPopupProps extends UseDailyCheckinOptions {
 /** Gold coin with a star — dimmed (grey) version for upcoming days */
 function Coin({ dim }: { dim?: boolean }) {
   return (
-    <svg className="dcp-coin" viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="12" cy="12" r="11" fill={dim ? '#b9c0c9' : '#f0a92e'} />
-      <circle cx="12" cy="12" r="8.5" fill={dim ? '#d9dee4' : '#ffd84d'} />
-      <path
-        d="M12 6.6l1.55 3.15 3.45.5-2.5 2.44.6 3.46L12 14.5l-3.1 1.65.6-3.46L7 10.25l3.45-.5z"
-        fill="#ffffff"
-      />
-    </svg>
+    <img
+      className="dcp-coin"
+      src="/ic-coin.webp"
+      alt=""
+      style={dim ? { filter: 'grayscale(1) opacity(0.5)' } : undefined}
+    />
   );
 }
 
+let particleCounterId = 1;
+
 export function DailyCheckinPopup(props: DailyCheckinPopupProps) {
+  const [particles, setParticles] = useState<number[]>([]);
+
+  const cleanParticle = (id: number) => {
+    setParticles((prev) => prev.filter((item) => item !== id));
+  };
+
   const {
     open: controlledOpen,
     onOpenChange,
@@ -83,12 +88,11 @@ export function DailyCheckinPopup(props: DailyCheckinPopupProps) {
     buttonLabel,
     checkedInLabel,
     closeDelay = 1500,
-    closeOnOverlayClick = true,
+    closeOnOverlayClick = false,
     className,
     locale = 'en',
     theme,
     baseUrl,
-    badgeImageUrl,
     ...hookOptions
   } = props;
 
@@ -166,6 +170,13 @@ export function DailyCheckinPopup(props: DailyCheckinPopupProps) {
   const handleCheckIn = () => {
     if (checkedInToday) return;
     checkin.checkIn();
+
+    const id = particleCounterId++;
+    setParticles((prev) => [...prev, id]);
+    setTimeout(() => {
+      cleanParticle(id);
+    }, 6000);
+
     if (closeDelay > 0) {
       window.setTimeout(() => setOpen(false), closeDelay);
     }
@@ -190,17 +201,13 @@ export function DailyCheckinPopup(props: DailyCheckinPopupProps) {
       >
         <div className="dcp-modal-img-wrap">
           <div className="dcp-wrap-with-img">
-            {badgeImageUrl ? (
-              <img
-                className="dcp-badge-img"
-                src={badgeImageUrl}
-                alt=""
-                decoding="async"
-                loading="lazy"
-              />
-            ) : (
-              <Coin />
-            )}
+            <img
+              className="dcp-badge-img"
+              src="/ic-coin.webp"
+              alt=""
+              decoding="async"
+              loading="lazy"
+            />
           </div>
         </div>
         <button className="dcp-close" onClick={() => setOpen(false)} aria-label="Close">
@@ -244,6 +251,9 @@ export function DailyCheckinPopup(props: DailyCheckinPopupProps) {
           {checkedInToday ? activeCheckedInLabel : activeButtonLabel}
         </button>
       </div>
+      {particles.map((id) => (
+        <Particles key={id} count={Math.floor(window.innerWidth / 5)} />
+      ))}
     </div>,
     document.body
   );

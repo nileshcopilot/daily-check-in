@@ -24,7 +24,7 @@ export const css = `
   // box-shadow: var(--dcp-shadow, 0 20px 50px rgba(0, 0, 0, 0.3));
   padding: 60px 16px 36px;
   text-align: center;
-  font-family: var(--dcp-font, system-ui, -apple-system, sans-serif);
+  font-family: var(--dcp-font, 'Inter', system-ui, -apple-system, sans-serif);
   animation: dcp-pop-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 /* ── Top badge: outer green ring ─────────────────────────── */
@@ -90,8 +90,8 @@ export const css = `
 }
 .dcp-title {
   margin: 0 0 8px;
-  font-size: 28px;
-  font-weight: 800;
+  font-size: 30px;
+  font-weight: 700;
   letter-spacing: -0.5px;
   color: var(--dcp-text, var(--dcp-secondary, #ffffff));
 }
@@ -100,13 +100,13 @@ export const css = `
   align-items: center;
   justify-content: center;
   gap: 6px;
-  margin: 0 0 8px;
-  font-size: 17px;
-  font-weight: 600;
+  // margin: 15px 0 5px;
+  font-size: 16px;
+  // font-weight: 600;
 }
 .dcp-subtitle .dcp-coin {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
 }
 .dcp-note {
   // margin: 0 0 24px;
@@ -156,6 +156,7 @@ export const css = `
   max-height: 118px !important;
   max-width: 78px !important;
   background: var(--dcp-day-bg, rgba(0, 0, 0, 0.15));
+  color:#ffffff8a;
 }
 .dcp-day-done {
   background: var(--dcp-day-done-bg, rgba(0, 0, 0, 0.08));
@@ -185,12 +186,12 @@ export const css = `
   line-height: 1;
 }
 .dcp-day-name {
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 10px;
+  font-weight: 700;
 }
 .dcp-day-value {
   font-size: 24px;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1;
 }
 .dcp-day-unit {
@@ -247,6 +248,18 @@ export const css = `
 }
 @media (prefers-reduced-motion: reduce) {
   .dcp-overlay, .dcp-card { animation: none; }
+}
+.dcp-particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 99999;
+  overflow: hidden;
+}
+.dcp-particle {
+  position: absolute;
+  pointer-events: none;
+  transition: top 5s linear, left 5s linear, transform 5s linear;
 }
 `;
 
