@@ -17,7 +17,7 @@ export const locales: Record<string, CheckinTranslations> = {
     note: 'You must claim daily bonus every day to form a streak!',
     dayLabel: 'Day {num}',
     buttonLabel: 'CLAIM',
-    checkedInLabel: 'CLAIMED ✓',
+    checkedInLabel: 'SUCCESS',
     unitLabel: 'Token',
   },
   es: {
@@ -26,7 +26,7 @@ export const locales: Record<string, CheckinTranslations> = {
     note: '¡Debes reclamar el bono diario todos los días para mantener tu racha!',
     dayLabel: 'Día {num}',
     buttonLabel: 'RECLAMAR',
-    checkedInLabel: 'RECLAMADO ✓',
+    checkedInLabel: 'ÉXITO',
     unitLabel: 'Fichas',
   },
   fr: {
@@ -35,16 +35,16 @@ export const locales: Record<string, CheckinTranslations> = {
     note: 'Vous devez réclamer le bonus quotidien chaque jour pour former une série !',
     dayLabel: 'Jour {num}',
     buttonLabel: 'RÉCLAMER',
-    checkedInLabel: 'RÉCLAMÉ ✓',
+    checkedInLabel: 'SUCCÈS',
     unitLabel: 'Jetons',
   },
   de: {
     title: 'Täglicher Check-in',
     subtitle: 'Checken Sie ein, um {coin} {reward} zu erhalten',
-    note: 'Sie müssen jeden Tag den täglichen Bonus beanspruchen, um eine Serie aufzubauen!',
+    note: 'Sie müssen jeden Tag den täglichen Bonus beanspruchen, um eine serie aufzubauen!',
     dayLabel: 'Tag {num}',
     buttonLabel: 'BEANSPRUCHEN',
-    checkedInLabel: 'BEANSPRUCHT ✓',
+    checkedInLabel: 'ERFOLGREICH',
     unitLabel: 'Token',
   },
   hi: {
@@ -53,7 +53,7 @@ export const locales: Record<string, CheckinTranslations> = {
     note: 'लगातार सिलसिला (streak) बनाए रखने के लिए आपको हर दिन दैनिक बोनस का दावा करना होगा!',
     dayLabel: 'दिन {num}',
     buttonLabel: 'दावा करें',
-    checkedInLabel: 'दावा किया ✓',
+    checkedInLabel: 'सफल',
     unitLabel: 'टोकन',
   },
   zh: {
@@ -62,7 +62,7 @@ export const locales: Record<string, CheckinTranslations> = {
     note: '您必须每天领取每日奖励以保持连续签到！',
     dayLabel: '第 {num} 天',
     buttonLabel: '领取',
-    checkedInLabel: '已领取 ✓',
+    checkedInLabel: '成功',
     unitLabel: '代币',
   },
   pt: {
@@ -71,16 +71,16 @@ export const locales: Record<string, CheckinTranslations> = {
     note: 'Você deve reivindicar o bônus diário todos os dias para manter uma sequência!',
     dayLabel: 'Dia {num}',
     buttonLabel: 'REIVINDICAR',
-    checkedInLabel: 'REIVINDICADO ✓',
+    checkedInLabel: 'SUCESSO',
     unitLabel: 'Fichas',
   },
   ja: {
     title: 'デイリーチェックイン',
     subtitle: 'チェックインして {coin} {reward} を獲得',
-    note: 'ストリークを維持するには、毎日デイリーボーナスを受け取る必要があります！',
+    note: 'ストリークを维持するには、毎日デイリーボーナスを受け取る必要があります！',
     dayLabel: '{num} 日目',
     buttonLabel: '受け取る',
-    checkedInLabel: '受け取り済み ✓',
+    checkedInLabel: '成功',
     unitLabel: 'トークン',
   },
   ko: {
@@ -89,7 +89,7 @@ export const locales: Record<string, CheckinTranslations> = {
     note: '스트릭을 유지하려면 매일 일일 보너스를 받아야 합니다!',
     dayLabel: '{num} 일차',
     buttonLabel: '받기',
-    checkedInLabel: '받음 ✓',
+    checkedInLabel: '성공',
     unitLabel: '토큰',
   },
   it: {
@@ -98,7 +98,7 @@ export const locales: Record<string, CheckinTranslations> = {
     note: 'Devi riscattare il bonus giornaliero ogni giorno per mantenere la serie!',
     dayLabel: 'Giorno {num}',
     buttonLabel: 'RISCATTA',
-    checkedInLabel: 'RISCATTATO ✓',
+    checkedInLabel: 'SUCCESSO',
     unitLabel: 'Gettoni',
   },
   ru: {
@@ -107,7 +107,7 @@ export const locales: Record<string, CheckinTranslations> = {
     note: 'Вы должны забирать ежедневный бонус каждый день, чтобы сохранить серию!',
     dayLabel: 'День {num}',
     buttonLabel: 'ЗАБРАТЬ',
-    checkedInLabel: 'ЗАБРАНО ✓',
+    checkedInLabel: 'УСПЕШНО',
     unitLabel: 'Токен',
   },
   ar: {
@@ -116,7 +116,7 @@ export const locales: Record<string, CheckinTranslations> = {
     note: 'يجب عليك المطالبة بالمكافأة اليومية كل يوم لتشكيل سلسلة متتالية!',
     dayLabel: 'اليوم {num}',
     buttonLabel: 'مطالبة',
-    checkedInLabel: 'تمت المطالبة ✓',
+    checkedInLabel: 'نجاح',
     unitLabel: 'رمز',
   },
 };

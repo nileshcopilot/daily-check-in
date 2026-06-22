@@ -89,7 +89,7 @@ export const css = `
   background: rgba(255, 255, 255, 0.3);
 }
 .dcp-title {
-  margin: 0 0 8px;
+  margin: 15px 0 8px;
   font-size: 30px;
   font-weight: 700;
   letter-spacing: -0.5px;
@@ -124,7 +124,7 @@ export const css = `
   // margin-bottom: 28px;
   display: grid !important;
   grid-template-columns: repeat(3, 1fr) !important;
-  gap: 12px !important;
+  grid-gap: 14px !important;
   margin-top: -20px !important;
   grid-auto-rows: auto !important;
   padding: 0 15px;
@@ -190,16 +190,17 @@ export const css = `
   font-weight: 700;
 }
 .dcp-day-value {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
   line-height: 1;
+  margin:6px 0 10px;
 }
 .dcp-day-unit {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 4px;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
 }
 .dcp-day-unit .dcp-coin {
@@ -207,35 +208,42 @@ export const css = `
   height: 14px;
 }
 .dcp-button {
-  display: block;
-  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 190px;
+  height: 40px;
   margin: 8px auto 0;
-  padding: 12px 24px;
+  padding: 0;
   border: none;
   border-radius: 999px;
   background: var(--dcp-button-bg, var(--dcp-secondary, #ffffff));
   color: var(--dcp-accent, #00a26d);
   font-size: 18px;
-  font-weight: 800;
+  font-weight: 700;
+  line-height: 1;
   letter-spacing: 0.5px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: transform 0.1s ease, box-shadow 0.1s ease;
-  margin-top:30px;
+  margin-top: 30px;
+}
+.dcp-button:not(:disabled) {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.05), 0 0 0 0 rgba(255, 255, 255, 0);
   animation: shadow-pulse 1.5s infinite;
-  animation-delay: .5s;
-  cursor:pointer;
+  animation-delay: 0.5s;
+  cursor: pointer;
 }
 .dcp-button:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15), 0 8px 8px rgba(0, 0, 0, 0.08), 0 0 0 0 rgba(255, 255, 255, 0);
 }
 .dcp-button:active:not(:disabled) {
   transform: translateY(0);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.05), 0 0 0 0 rgba(255, 255, 255, 0);
 }
 .dcp-button:disabled {
-  opacity: 0.6;
+  // opacity: 0.6;
+  box-shadow: none;
+  animation: none;
   cursor: not-allowed;
 }
 @keyframes dcp-fade-in {
@@ -245,6 +253,52 @@ export const css = `
 @keyframes dcp-pop-in {
   from { opacity: 0; transform: scale(0.92) translateY(8px); }
   to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.dcp-btn-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 100%;
+}
+.dcp-loading-message svg {
+  width: 32px;
+  height: 24px;
+}
+.dcp-loading-circle {
+  fill: var(--dcp-accent, #00a26d);
+  animation: dcp-dot-pulse 1.2s infinite both;
+}
+.dcp-loading-circle:nth-child(1) {
+  animation-delay: 0s;
+}
+.dcp-loading-circle:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.dcp-loading-circle:nth-child(3) {
+  animation-delay: 0.4s;
+}
+.dcp-success-message span {
+  animation: dcp-fade-in 0.2s ease;
+}
+@keyframes dcp-dot-pulse {
+  0%, 80%, 100% {
+    opacity: 0.2;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+@keyframes shadow-pulse {
+  0% {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.05), 0 0 0 0 rgba(255, 255, 255, 0.4);
+  }
+  70% {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.05), 0 0 0 10px rgba(255, 255, 255, 0);
+  }
+  100% {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.05), 0 0 0 0 rgba(255, 255, 255, 0);
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .dcp-overlay, .dcp-card { animation: none; }

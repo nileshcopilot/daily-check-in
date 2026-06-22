@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useState, useRef, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { injectStyles } from './styles';
 import {
@@ -69,6 +69,8 @@ let particleCounterId = 1;
 
 export function DailyCheckinPopup(props: DailyCheckinPopupProps) {
   const [particles, setParticles] = useState<number[]>([]);
+  const [btnState, setBtnState] = useState<'ready' | 'loading' | 'complete'>('ready');
+  const isAnimatingRef = useRef(false);
 
   const cleanParticle = (id: number) => {
     setParticles((prev) => prev.filter((item) => item !== id));
@@ -127,6 +129,14 @@ export function DailyCheckinPopup(props: DailyCheckinPopupProps) {
     onOpenChange?.(next);
   };
 
+  const { streak, checkedInToday, dailyStreakCoins } = checkin;
+
+  useEffect(() => {
+    if (open && !isAnimatingRef.current) {
+      setBtnState(checkedInToday ? 'complete' : 'ready');
+    }
+  }, [open, checkedInToday]);
+
   useEffect(() => {
     injectStyles();
   }, []);
@@ -142,10 +152,6 @@ export function DailyCheckinPopup(props: DailyCheckinPopupProps) {
   }, [open]);
 
   if (!open || typeof document === 'undefined') return null;
-
-  const { streak, checkedInToday, dailyStreakCoins } = checkin;
-
-  if (baseUrl && !dailyStreakCoins) return null;
 
   // Resolve rewards list and days count from API data if available
   const activeRewards = dailyStreakCoins
@@ -168,18 +174,25 @@ export function DailyCheckinPopup(props: DailyCheckinPopupProps) {
   });
 
   const handleCheckIn = () => {
-    if (checkedInToday) return;
+    if (btnState !== 'ready') return;
+    isAnimatingRef.current = true;
+    setBtnState('loading');
     checkin.checkIn();
 
-    const id = particleCounterId++;
-    setParticles((prev) => [...prev, id]);
     setTimeout(() => {
-      cleanParticle(id);
-    }, 6000);
+      setBtnState('complete');
+      isAnimatingRef.current = false;
+      
+      const id = particleCounterId++;
+      setParticles((prev) => [...prev, id]);
+      setTimeout(() => {
+        cleanParticle(id);
+      }, 6000);
 
-    if (closeDelay > 0) {
-      window.setTimeout(() => setOpen(false), closeDelay);
-    }
+      if (closeDelay > 0) {
+        window.setTimeout(() => setOpen(false), closeDelay);
+      }
+    }, 1000);
   };
 
   return createPortal(
@@ -247,8 +260,30 @@ export function DailyCheckinPopup(props: DailyCheckinPopupProps) {
             );
           })}
         </div>
-        <button className="dcp-button" onClick={handleCheckIn} disabled={checkedInToday}>
-          {checkedInToday ? activeCheckedInLabel : activeButtonLabel}
+        <button
+          className={`dcp-button ${btnState}`}
+          onClick={handleCheckIn}
+          disabled={btnState !== 'ready'}
+        >
+          {btnState === 'ready' && (
+            <div className="dcp-btn-message dcp-submit-message">
+              <span>{activeButtonLabel}</span>
+            </div>
+          )}
+          {btnState === 'loading' && (
+            <div className="dcp-btn-message dcp-loading-message">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19 17">
+                <circle className="dcp-loading-circle" cx="2.2" cy="10" r="1.6"/>
+                <circle className="dcp-loading-circle" cx="9.5" cy="10" r="1.6"/>
+                <circle className="dcp-loading-circle" cx="16.8" cy="10" r="1.6"/>
+              </svg>
+            </div>
+          )}
+          {btnState === 'complete' && (
+            <div className="dcp-btn-message dcp-success-message">
+              <span>{activeCheckedInLabel}</span>
+            </div>
+          )}
         </button>
       </div>
       {particles.map((id) => (
