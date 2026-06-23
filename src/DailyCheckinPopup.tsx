@@ -55,6 +55,8 @@ export interface DailyCheckinPopupProps extends UseDailyCheckinOptions {
 
 const COIN_IMAGE = 'data:image/webp;base64,UklGRkoEAABXRUJQVlA4WAoAAAAQAAAALwAALwAAQUxQSEkBAAABkGvb2rFXO7Zt+wJSJaVqu2Rlu7KdOiOd0zk5tm3bxvf/73vw4X2fK4iICYBxt/zFGx9/MaZ8ebjd5QvZAVWHTFw3e9zrIsNj8BcXaF5yFGXf8JELVhbExN7iEt/7CEj7wKWasgxVm7hkVmqgmstnWbrSTAS4kqQj9gMn+ctHw/4WJ/pSo5FTZY0qHh/I8N8qg5zwHICAn5QUAFWcdBqwSWsbbr9pfUY+p82iponx5h1qiw+oHXtP7bpC7elXag+fULt8mdruBrW5TmplmcTM9u6/aD0A1mmNAvmkWBDg8ILSbQCoJsSS/3N4R+cMVHvIsCg1nKUyBU2HLzROQ2fKbwpvrPUg+Y2872HQH3NP1ssAGPV9LeecNYx7nGLizPMQm/tBEDsdBuEtnwSwu6mQmtR3g+lhj0d8IN83vWvp2I1H1/emS1wgEABWUDgg2gIAAFAQAJ0BKjAAMAA+bTCRRaQjIZcaBmRABsS2AE6ZQjsP3jzBKV/KPvLtCJAu0zGr6gNsx5iP2F/bHsW/5L1AP256xj0K/Lg/bH4Of3E/bf2kU+3LWqqR9opDfL/wFrW1w3oQUN1Ppz9kIubudiXuf3Yx6IpARwAfSwhi2XeuXpChwtAxGeB9kz17cAAA/vYJ09WTT3xCi1J9Jq3tXE4YiM0kubBPCG18gILYn/mcSuXKecVYx+VH8+/3Jaw71cqA3QUMorqXx+0HY5lRjzZoSpwUOrZsn5l2sq5FvGHjeiYhTMdP/vMao9xPicytNu792iLMMXYqSBrx/87XDP76mt0wJ4fNR+kRLk+0X7FWQInSVOEUye3HoEhBE79oHHIjfJzKzETvSMr8mVg0C+2cciKNc+RzbWS9bIugTZHFJH0iKfsMeIYL16bX3SgxJ48n39jLpm8dWE4pM6V4RDWJ2PnKM5s2spJRoMx0mbHKaQHSlsjaHaHvlgQzVgDI/UGKZGaiSmGMczxKaYHfxLF98uSVH2uaxsvvUz++XiK9SoUF1AYTQgTobO85hrO5yIU7xv6ydCMpVSrWr9lONlhPOIDGfU74TFvJsXjITMijzHVRZAKUDUgrjEl8e1cGC48efqTBQgyVu8TldkR07H6Tq/xe5m7whEcZTFFi4UaTB00z3sEgJxesACi0SC1I6IuFQGnpR6PN/2FEp1ztFwCZUQx6Su/LclEErk/nmxPAzKSwhieYyV0cGt6eKwoAPLg2t8QmCSNha9H553MuAVDI1IiDRTHF/n0MwSBwtHhhhHkoKic5iK/3BBv6kL2ZOig4y0Xyejy8X/Xs2yNjv2CJi88Ae5uqIEaQIAVQQekjsjPNsRr078SVLv+X8OMsB2lpLju2tyFHqezQHfeq1pp4q+jqiQWJMkskE6mCIS5oVfE5tT/PwW9N/C36v4RAZRjyf7em4Ac0bpKgAAA=';
 
+const TICK_IMAGE = 'data:image/webp;base64,UklGRo4DAABXRUJQVlA4WAoAAAAQAAAAOwAAOwAAQUxQSIQBAAABGbIBylRhE9H/uNMgB7Jt07bWs23btm0jtW2/96P/M9u2bTO0bdvGs2f9fO2ICWDjto0kyntVu93+4eY3Pvvhpz/EX13+6dKNCXeTQCT0J0mCpIFJYSFY9MWfvSIeOuQpMmT61JCx7aLd5nlpCN+QMe+7WSb6aPAnMKAP8u0COzFzt/Em6AY7MfN6WboB8UTt+ryGwgVWIPwEzA92niCPwfAaOYAn7ubrLCBeJ8tjQJ/peuczVbgl44tC4cxDzmGc/aCugvqEb/tKGcHV5YwIQLzfJEh7MNIND1iAXmr8r48nvKYL6Ldl2iEvC3WRBPTQQQmQl/l2QdrnDhtA/4yzCUHWAiqcD+haQdkJA10URdClgDLgAzpfmqCzIAE6Y1ASjEAnQw10XV6B7q+nGJr4B/uTEdBdchp0n+z2AUF22jb/IPfCDAcRZFdNdRZBdkyjTf6ShnxHg3Kl9BBgsmJkSqWNAJMSLFM6UwSZpSCB2JkkAkyVPw+27AgdBJk6O8KQjv4YVlA4IOQBAABwCwCdASo8ADwAPm0sk0ckIiGhLBK8AIANiWoNsAUgopAjP2bj4wL/G+Ix0uPMBjgG8co0DZmvcEO5ipr3YhGqmW3HlaMyfAEzIs97ZwIyCgc3Pwh2oLe8+FXTuTKdfAcrtraAAP7rZFw5n2K/5sD288EcLAc0t91ywxA9cDV2Tbb1HcfaqXhEFZ/kvBWQJ+RyfgEjM5lu3BDFTOl8FICR0rF/QBcNt9/pSCx/ok55r0fhdRUA/L8DKkdR+G98EK4rXy/cqOn57Qp0oEdxFz5nQtfSPeoNuFzp9f75rxQr1IprVPlgl8Zl81cP1ccptcUJluQHsVbQP1SGQpn+Dnsvge6EwelegGM0squCACbsXp1tTz45SX4BOrRRtoATJN86Ft6P9LkHBc1n4oRMVUj4YBkAynW2VjAH8nWpisnw2+VTfU8Km5IBqqG+ajqp9ONYKapcKGzV92ABhg1PJgLmclk/3bA9HOr0zpxXB9RG5K/1uI1kB3t39hQblljArCqHr45zT6AIB6ASQwE6ClPuZ+oNTpGtmnM0YOASQV4J9C50FrkuqQB23xw/6dIzm3VK6Zplam2ZYd7aUEmP2cVohSmLm//oJt54bQoUrZn08sk+wY2cFHMpKFVW1RPbp7hswAAA';
+
 /** Gold coin with a star — dimmed (grey) version for upcoming days */
 function Coin({ dim }: { dim?: boolean }) {
   return (
@@ -246,7 +248,13 @@ export function DailyCheckinPopup(props: DailyCheckinPopupProps) {
               .join(' ');
             return (
               <div key={i} className={cls}>
-                {done ? <span className="dcp-day-check">{doneIcon}</span> : null}
+                {done ? (
+                  doneIcon === '✓' ? (
+                    <img src={TICK_IMAGE} className="dcp-day-check-img" alt="✓" />
+                  ) : (
+                    <span className="dcp-day-check">{doneIcon}</span>
+                  )
+                ) : null}
                 <span className="dcp-day-name">
                   {interpolateDay(defaultTexts.dayLabel, i + 1)}
                 </span>

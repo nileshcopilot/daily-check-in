@@ -18,6 +18,8 @@ export interface CheckinInfo {
   streak: number;
   /** Date of this check-in, YYYY-MM-DD local */
   date: string;
+  /** API response data from claiming coins */
+  apiResponse?: any;
 }
 
 export interface UseDailyCheckinOptions {
@@ -29,6 +31,8 @@ export interface UseDailyCheckinOptions {
   autoShowDelay?: number;
   /** Called once when the user checks in for the day */
   onCheckIn?: (info: CheckinInfo) => void;
+  /** Called when the daily streak data is successfully fetched from the API */
+  onStreakDataFetch?: (data: any) => void;
   /** Base URL for API calls */
   baseUrl?: string;
   /** Session key for authentication (sent via 'session-key' / 'Sessionkey' header) */
@@ -37,6 +41,8 @@ export interface UseDailyCheckinOptions {
   locale?: string;
   /** Additional headers for API calls (e.g. Authorization token) */
   apiHeaders?: Record<string, string>;
+  /** Callback to receive raw API responses from fetch and claim actions */
+  onApiResponse?: (type: 'fetch' | 'claim', data: any) => void;
   /** The date when the popup was last shown (format: YYYY-MM-DD or Date object or timestamp) */
   lastShownDate?: string | number | Date | null;
 }
@@ -130,6 +136,8 @@ export function useDailyCheckin(options: UseDailyCheckinOptions = {}): UseDailyC
     locale = 'en',
     apiHeaders,
     lastShownDate,
+    onStreakDataFetch,
+    onApiResponse,
   } = options;
 
   const [open, setOpen] = useState(false);
@@ -219,10 +227,18 @@ export function useDailyCheckin(options: UseDailyCheckinOptions = {}): UseDailyC
           method: 'POST',
           headers,
         });
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        const data = await response.json();
 
-        if (data && typeof data === 'object') {
+        let data: any = null;
+        try {
+          data = await response.json();
+        } catch {
+          data = { message: response.statusText, status: response.status };
+        }
+
+        onStreakDataFetch?.(data);
+        onApiResponse?.('fetch', data);
+
+        if (response.ok && data && typeof data === 'object') {
           const payload = data.data || data;
 
           const allowClaim = payload.allow_claim !== undefined ? Number(payload.allow_claim) : null;
@@ -260,14 +276,17 @@ export function useDailyCheckin(options: UseDailyCheckinOptions = {}): UseDailyC
               });
             }
           }
+        } else if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
-      } catch (err) {
+      } catch (err: any) {
         console.error('Failed to fetch daily streak coins:', err);
+        onApiResponse?.('fetch', { message: err?.message || 'Network error, please try again.', error: err });
       }
     };
 
     fetchStreakData();
-  }, [open, baseUrl, storageKey, sessionKey, locale, apiHeaders]);
+  }, [open, baseUrl, storageKey, sessionKey, locale, apiHeaders, onStreakDataFetch, onApiResponse]);
 
   const today = localDate();
   const checkedInToday = apiData
@@ -279,8 +298,9 @@ export function useDailyCheckin(options: UseDailyCheckinOptions = {}): UseDailyC
     ? (apiData.allowClaim === 0 ? apiData.currentDay : apiData.currentDay - 1)
     : (state.lastCheckin === today || state.lastCheckin === yesterdayDate() ? state.streak : 0);
 
-  const checkIn = useCallback(() => {
+  const checkIn = useCallback(async () => {
     if (apiData) {
+      let claimResponseData: any = null;
       if (baseUrl) {
         const headers: Record<string, string> = {
           'Content-Type': 'application/json',
@@ -291,19 +311,29 @@ export function useDailyCheckin(options: UseDailyCheckinOptions = {}): UseDailyC
           headers['Sessionkey'] = sessionKey;
         }
 
-        fetch(`${baseUrl}/user/coins/claim_coins`, {
-          method: 'POST',
-          headers,
-        }).catch((err) => {
+        try {
+          const response = await fetch(`${baseUrl}/user/coins/claim_coins`, {
+            method: 'POST',
+            headers,
+          });
+          try {
+            claimResponseData = await response.json();
+          } catch {
+            claimResponseData = { message: response.statusText, status: response.status };
+          }
+          onApiResponse?.('claim', claimResponseData);
+        } catch (err: any) {
           console.error('Failed to claim coins:', err);
-        });
+          claimResponseData = { message: err?.message || 'Network error, please try again.', error: err };
+          onApiResponse?.('claim', claimResponseData);
+        }
       }
 
       setApiData((prev) => {
         if (!prev) return null;
         const nextStreak = prev.currentDay;
         const now = localDate();
-        onCheckIn?.({ streak: nextStreak, date: now });
+        onCheckIn?.({ streak: nextStreak, date: now, apiResponse: claimResponseData });
 
         // Sync local storage state
         writeState(storageKey, {
@@ -329,7 +359,7 @@ export function useDailyCheckin(options: UseDailyCheckinOptions = {}): UseDailyC
         return next;
       });
     }
-  }, [apiData, baseUrl, storageKey, sessionKey, locale, apiHeaders, onCheckIn]);
+  }, [apiData, baseUrl, storageKey, sessionKey, locale, apiHeaders, onCheckIn, onApiResponse]);
 
   const reset = useCallback(() => {
     try {

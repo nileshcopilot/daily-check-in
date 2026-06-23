@@ -171,19 +171,31 @@ export const css = `
 }
 .dcp-day-check {
   position: absolute;
-  top: 6px;
-  right: 6px;
+  top: 0;
+  right: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--dcp-secondary, #ffffff);
-  color: var(--dcp-accent, #00a26d);
-  font-size: 11px;
+  width: 24px;
+  height: 24px;
+  border-radius: 0 0 0 100%;
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--dcp-secondary, #ffffff);
+  font-size: 15px;
   font-weight: 900;
   line-height: 1;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  box-sizing: border-box;
+}
+.dcp-day-check-img {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  pointer-events: none;
 }
 .dcp-day-name {
   font-size: 10px;
