@@ -337,6 +337,11 @@ export const css = `
   border: 1.5px solid transparent !important;
   color: #ffffff !important;
 }
+.dcp-card.dcp-dark .dcp-day-today {
+  background: #1c1d22 !important;
+  border: 1.5px solid transparent !important;
+  color: #ffffff !important;
+}
 `;
 
 let injected = false;
