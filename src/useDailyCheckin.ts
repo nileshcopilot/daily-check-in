@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useRef } from 'react';
 
 export interface CheckinTheme {
   primaryColor?: string;
@@ -140,6 +140,16 @@ export function useDailyCheckin(options: UseDailyCheckinOptions = {}): UseDailyC
     onApiResponse,
   } = options;
 
+  const onCheckInRef = useRef(onCheckIn);
+  const onStreakDataFetchRef = useRef(onStreakDataFetch);
+  const onApiResponseRef = useRef(onApiResponse);
+
+  useEffect(() => {
+    onCheckInRef.current = onCheckIn;
+    onStreakDataFetchRef.current = onStreakDataFetch;
+    onApiResponseRef.current = onApiResponse;
+  });
+
   const [open, setOpen] = useState(false);
   const [state, setState] = useState<CheckinState>({ lastCheckin: null, streak: 0 });
   const [apiData, setApiData] = useState<{
@@ -235,8 +245,8 @@ export function useDailyCheckin(options: UseDailyCheckinOptions = {}): UseDailyC
           data = { message: response.statusText, status: response.status };
         }
 
-        onStreakDataFetch?.(data);
-        onApiResponse?.('fetch', data);
+        onStreakDataFetchRef.current?.(data);
+        onApiResponseRef.current?.('fetch', data);
 
         if (response.ok && data && typeof data === 'object') {
           const payload = data.data || data;
@@ -281,12 +291,12 @@ export function useDailyCheckin(options: UseDailyCheckinOptions = {}): UseDailyC
         }
       } catch (err: any) {
         console.error('Failed to fetch daily streak coins:', err);
-        onApiResponse?.('fetch', { message: err?.message || 'Network error, please try again.', error: err });
+        onApiResponseRef.current?.('fetch', { message: err?.message || 'Network error, please try again.', error: err });
       }
     };
 
     fetchStreakData();
-  }, [open, baseUrl, storageKey, sessionKey, locale, apiHeaders, onStreakDataFetch, onApiResponse]);
+  }, [open, baseUrl, storageKey, sessionKey, locale, apiHeaders]);
 
   const today = localDate();
   const checkedInToday = apiData
@@ -321,11 +331,11 @@ export function useDailyCheckin(options: UseDailyCheckinOptions = {}): UseDailyC
           } catch {
             claimResponseData = { message: response.statusText, status: response.status };
           }
-          onApiResponse?.('claim', claimResponseData);
+          onApiResponseRef.current?.('claim', claimResponseData);
         } catch (err: any) {
           console.error('Failed to claim coins:', err);
           claimResponseData = { message: err?.message || 'Network error, please try again.', error: err };
-          onApiResponse?.('claim', claimResponseData);
+          onApiResponseRef.current?.('claim', claimResponseData);
         }
       }
 
@@ -333,7 +343,7 @@ export function useDailyCheckin(options: UseDailyCheckinOptions = {}): UseDailyC
         if (!prev) return null;
         const nextStreak = prev.currentDay;
         const now = localDate();
-        onCheckIn?.({ streak: nextStreak, date: now, apiResponse: claimResponseData });
+        onCheckInRef.current?.({ streak: nextStreak, date: now, apiResponse: claimResponseData });
 
         // Sync local storage state
         writeState(storageKey, {
@@ -355,11 +365,11 @@ export function useDailyCheckin(options: UseDailyCheckinOptions = {}): UseDailyC
           streak: prev.lastCheckin === yesterdayDate() ? prev.streak + 1 : 1,
         };
         writeState(storageKey, next);
-        onCheckIn?.({ streak: next.streak, date: now });
+        onCheckInRef.current?.({ streak: next.streak, date: now });
         return next;
       });
     }
-  }, [apiData, baseUrl, storageKey, sessionKey, locale, apiHeaders, onCheckIn, onApiResponse]);
+  }, [apiData, baseUrl, storageKey, sessionKey, locale, apiHeaders]);
 
   const reset = useCallback(() => {
     try {
