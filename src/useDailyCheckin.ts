@@ -4,6 +4,7 @@ export interface CheckinTheme {
   primaryColor?: string;
   secondaryColor?: string;
   accentColor?: string;
+  dark?: boolean;
 }
 
 export interface CheckinState {

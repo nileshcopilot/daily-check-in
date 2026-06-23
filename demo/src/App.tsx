@@ -38,8 +38,8 @@ export default function App() {
         onOpenChange={setOpen}
         storageKey={STORAGE_KEY}
         lastShownDate={mockLastShownDate}
-        locale="en"
-        theme={{ primaryColor: '#0070f3', secondaryColor: '#fff', accentColor: '#0070f3' }}
+        locale="hi"
+        theme={{ primaryColor: '#0070f3', secondaryColor: '#fff', accentColor: '#0070f3', dark: true }}
         baseUrl="https://corep.vinfotech.org"
         sessionKey="
 eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjb3JlcC52aW5mb3RlY2gub3JnIiwiaWF0IjoxNzgyMjA0MTQwLCJleHAiOjE3ODI4MDg5NDAsInR5cGUiOiJhY2Nlc3MiLCJ1c2VyX2lkIjoiMjY1IiwidXNlcl91bmlxdWVfaWQiOiJmMDgwMjRhMGZmIiwidXNlcl9uYW1lIjoiZGl0NjciLCJjdXN0b21lcl9pZCI6bnVsbCwicGhvbmVfbm8iOiI4Nzg3Njc1NjQ5IiwiZW1haWwiOiJkaXQ2N0BtYWlsaW5hdG9yLmNvbSIsInJlZmVycmFsX2NvZGUiOiI3MjA5NTUiLCJic19zdGF0dXMiOm51bGwsInJvbGUiOjF9.EY6Ij5VApIzOmf0n0PPMMtkbvOcx7DK7JjyTuUb9Gu4"

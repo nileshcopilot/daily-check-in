@@ -206,7 +206,13 @@ export function DailyCheckinPopup(props: DailyCheckinPopupProps) {
       role="presentation"
     >
       <div
-        className={className ? `dcp-card ${className}` : 'dcp-card'}
+        className={[
+          'dcp-card',
+          theme?.dark && 'dcp-dark',
+          className,
+        ]
+          .filter(Boolean)
+          .join(' ')}
         style={{
           ['--dcp-columns' as string]: columns,
           ...customStyles,

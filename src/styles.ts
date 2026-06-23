@@ -327,6 +327,16 @@ export const css = `
   pointer-events: none;
   transition: top 5s linear, left 5s linear, transform 5s linear;
 }
+/* ── Dark Mode overrides ────────────────────────────────── */
+.dcp-card.dcp-dark .dcp-button {
+  background: #1c1d22 !important;
+  color: #ffffff !important;
+}
+.dcp-card.dcp-dark .dcp-day-done {
+  background: #1c1d22 !important;
+  border: 1.5px solid transparent !important;
+  color: #ffffff !important;
+}
 `;
 
 let injected = false;
