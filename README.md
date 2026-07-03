@@ -1,4 +1,4 @@
-# @nileshp.vinfotech/daily-checkin-popup
+# daily-checkin-popup
 
 Daily check-in popup for React with streak tracking. Zero runtime dependencies, ships its own styles, SSR-safe (Next.js App Router compatible).
 
@@ -10,7 +10,7 @@ Daily check-in popup for React with streak tracking. Zero runtime dependencies, 
 ## Install
 
 ```bash
-npm install @nileshp.vinfotech/daily-checkin-popup
+npm install daily-checkin-popup
 ```
 
 ## Quick start (Next.js / React)
@@ -20,7 +20,7 @@ Drop it anywhere in your layout — it opens by itself once per day:
 ```tsx
 'use client';
 
-import { DailyCheckinPopup } from '@nileshp.vinfotech/daily-checkin-popup';
+import { DailyCheckinPopup } from 'daily-checkin-popup';
 
 export function DailyCheckin() {
   return (
@@ -55,7 +55,7 @@ const [open, setOpen] = useState(false);
 Build your own UI on top of the same logic:
 
 ```tsx
-import { useDailyCheckin } from '@nileshp.vinfotech/daily-checkin-popup';
+import { useDailyCheckin } from 'daily-checkin-popup';
 
 const { open, setOpen, streak, checkedInToday, checkIn, reset } = useDailyCheckin({
   storageKey: 'my-app-checkin',
@@ -114,10 +114,10 @@ All visuals read CSS variables with sensible fallbacks. Define them globally or 
 From any project:
 
 ```bash
-npm install /Users/nilesh/daily-checkin-popup
+npm install /path/to/daily-checkin-popup
 # or, for live development:
 cd ~/daily-checkin-popup && npm link
-cd ~/your-project && npm link @nileshp.vinfotech/daily-checkin-popup
+cd ~/your-project && npm link daily-checkin-popup
 ```
 
 ## Publishing to npm

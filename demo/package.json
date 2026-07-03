@@ -13,7 +13,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@nileshp.vinfotech/daily-checkin-popup": "file:..",
+    "daily-checkin-popup": "file:..",
     "react": "^19.2.6",
     "react-dom": "^19.2.6"
   },
