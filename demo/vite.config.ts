@@ -9,7 +9,7 @@ export default defineConfig({
     alias: {
       // Point straight at the library source for instant HMR + TS debugging.
       // Remove this alias to test the built dist/ output instead.
-      '@nileshp.vinfotech/daily-checkin-popup': fileURLToPath(
+      'daily-checkin-popup': fileURLToPath(
         new URL('../src/index.ts', import.meta.url),
       ),
     },

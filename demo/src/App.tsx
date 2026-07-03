@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { DailyCheckinPopup } from '@nileshp.vinfotech/daily-checkin-popup';
+import { DailyCheckinPopup } from 'daily-checkin-popup';
 
 const STORAGE_KEY = 'demo-checkin';
 
@@ -39,9 +39,9 @@ export default function App() {
         storageKey={STORAGE_KEY}
         lastShownDate={mockLastShownDate}
         locale="hi"
-        theme={{ primaryColor: '#0070f3', secondaryColor: '#fff', accentColor: '#0070f3', dark: true }}
+        theme={{ primaryColor: '#0070f3', secondaryColor: '#fff', accentColor: '#0070f3', dark: false }}
         baseUrl="https://corep.vinfotech.org"
-        sessionKey="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjb3JlcC52aW5mb3RlY2gub3JnIiwiaWF0IjoxNzgyMjA1MjY4LCJleHAiOjE3ODI4MTAwNjgsInR5cGUiOiJhY2Nlc3MiLCJ1c2VyX2lkIjoiMjY3IiwidXNlcl91bmlxdWVfaWQiOiJlMzBiOTQ5ZWY5IiwidXNlcl9uYW1lIjoiZG9jMSIsImN1c3RvbWVyX2lkIjpudWxsLCJwaG9uZV9ubyI6IjgxMDk4MjgxMzMiLCJlbWFpbCI6ImRvYzFAbWFpbGluYXRvci5jb20iLCJyZWZlcnJhbF9jb2RlIjoiM0ZFODEwIiwiYnNfc3RhdHVzIjpudWxsLCJyb2xlIjoxfQ.kdVbUZXzByfuD7Y1D8mUgC5DoUkKvswQCbngFNVm0qE"
+        sessionKey="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjb3JlcC52aW5mb3RlY2gub3JnIiwiaWF0IjoxNzgyMjA2MDY3LCJleHAiOjE3ODI4MTA4NjcsInR5cGUiOiJhY2Nlc3MiLCJ1c2VyX2lkIjoiMjY4IiwidXNlcl91bmlxdWVfaWQiOiIwMzQ0MTNmM2Q4IiwidXNlcl9uYW1lIjoiaWI1IiwiY3VzdG9tZXJfaWQiOm51bGwsInBob25lX25vIjoiNjc5ODk4ODY2IiwiZW1haWwiOiJpYjVAbWFpbGluYXRvci5jb20iLCJyZWZlcnJhbF9jb2RlIjoiODA3MEQ0IiwiYnNfc3RhdHVzIjpudWxsLCJyb2xlIjoxfQ.T1txSAtFUg_w8GnHJqaboeziWawYiLvAGQdlXf8t0qE"
         // onCheckIn={({ streak, date }) =>
         //   setLog((l) => [...l, `Checked in on ${date} — streak: ${streak}`])
         // }
